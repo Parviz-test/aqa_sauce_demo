@@ -10,6 +10,7 @@ class LoginPage(BasePage):
 
     def __init__(self, page):
         super().__init__(page)
+        self.error = self.page.locator(".error-message-container")
         self.field_username = self.page.locator("#user-name")
         self.field_password = self.page.locator("#password")
         self.btn_login = self.page.get_by_role("button", name="Login")
