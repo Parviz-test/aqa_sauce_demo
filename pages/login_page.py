@@ -47,3 +47,9 @@ class LoginPage(BasePage):
         expect(self.error).to_be_visible()
         expect(self.error).to_have_text(error_msg)
         return True
+
+    def  login_procedure(self, user_, pass_):
+         self.fill_username(user_)
+         self.fill_password(pass_)
+         self.click_btn_login()
+
