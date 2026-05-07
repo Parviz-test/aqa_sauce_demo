@@ -1,6 +1,7 @@
 import pytest
 
-from config.base import E_MSG_LOGIN, E_MSG_LOGIN_USERNAME, E_MSG_LOGIN_PASSWORD
+from config.base import E_MSG_LOGIN, E_MSG_LOGIN_USERNAME, \
+    E_MSG_LOGIN_PASSWORD, URL_INVENTARY
 from config.users import (USER1_NAME, USER_PASSWORD, USER_WRONG_NAME,
                           USER_WRONG_PASSWORD)
 from pages.inventory_page import InventoryPage
@@ -22,7 +23,7 @@ class TestAuth:
         login_page.check_field_password(USER_PASSWORD)
         # Шаг 4  Нажать Login
         login_page.click_btn_login()
-        login_page.expect_to_have_url("/inventory.html")
+        login_page.expect_to_have_url(URL_INVENTARY)
         # Шаг 5  Найти товар "Sauce Labs Backpack"
         inventory_page = InventoryPage(page)
         assert inventory_page.check_have_title("Products"), "Заголовок не тот"
@@ -86,7 +87,7 @@ class TestAuth:
 
             login_page.login_procedure(USER1_NAME, USER_PASSWORD)
 
-            login_page.expect_to_have_url("/inventory.html")
+            login_page.expect_to_have_url(URL_INVENTARY)
             inventory_page = InventoryPage(page)
             assert inventory_page.check_have_title("Products")
 
@@ -98,12 +99,12 @@ class TestAuth:
             """
             login_page = LoginPage(page)
             login_page.open()
-            login_page.login_procedure (USER1_NAME, USER_PASSWORD)
-            login_page.expect_to_have_url("/inventory.html")
+            login_page.login_procedure(USER1_NAME, USER_PASSWORD)
+            login_page.expect_to_have_url(URL_INVENTARY)
 
             page.reload()
 
-            login_page.expect_to_have_url("/inventory.html")
+            login_page.expect_to_have_url(URL_INVENTARY)
             inventory_page = InventoryPage(page)
             assert inventory_page.check_have_title("Products"), \
                 "Сессия не сохранилась после перезагрузки страницы!"
