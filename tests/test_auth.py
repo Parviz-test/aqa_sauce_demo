@@ -2,6 +2,7 @@ import pytest
 
 from config.base import E_MSG_LOGIN, E_MSG_LOGIN_USERNAME, \
     E_MSG_LOGIN_PASSWORD, URL_INVENTARY
+from config.products import TITLE_INVENTORY
 from config.users import (USER1_NAME, USER_PASSWORD, USER_WRONG_NAME,
                           USER_WRONG_PASSWORD)
 from pages.inventory_page import InventoryPage
@@ -26,7 +27,7 @@ class TestAuth:
         login_page.expect_to_have_url(URL_INVENTARY)
         # Шаг 5  Найти товар "Sauce Labs Backpack"
         inventory_page = InventoryPage(page)
-        assert inventory_page.check_have_title("Products"), "Заголовок не тот"
+        assert inventory_page.check_have_title(TITLE_INVENTORY), "Заголовок не тот"
 
     @pytest.mark.parametrize(
         "page,username,password,error_msg",
