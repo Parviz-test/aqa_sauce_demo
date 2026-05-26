@@ -73,4 +73,70 @@ class TestInventory:
         assert actual_prices ==  expected_prices
         f"Цены не отсортированы по возрастанию! Получено: {actual_prices}"
 
+    def test_inv_006(self, page):
 
+        login_page = LoginPage(page)
+        login_page.open()
+        login_page.login_procedure(USER1_NAME, USER_PASSWORD)
+        login_page.expect_to_have_url(URL_INVENTARY)
+
+        inventory_page = InventoryPage(page)
+        inventory_page.select_sort("hilo")
+
+        actual_prices = inventory_page.get_all_product_prices_as_floats()
+        assert actual_prices == sorted(actual_prices, reverse=True), f"Цены не отсортированы по убыванию! Получено: {actual_prices}"
+
+    def test_inv_007(self, page):
+
+        login_page = LoginPage(page)
+        login_page.open()
+        login_page.login_procedure(USER1_NAME, USER_PASSWORD)
+        login_page.expect_to_have_url(URL_INVENTARY)
+
+        inventory_page = InventoryPage(page)
+        inventory_page.select_sort("az")
+
+        actual_names = inventory_page.get_all_product_names()
+        assert actual_names == sorted(actual_names), f"Названия не отсортированы по алфавиту! Получено: {actual_names}"
+
+    def test_inv_008(self, page):
+
+        login_page = LoginPage(page)
+        login_page.open()
+        login_page.login_procedure(USER1_NAME, USER_PASSWORD)
+        login_page.expect_to_have_url(URL_INVENTARY)
+
+        inventory_page = InventoryPage(page)
+        inventory_page.click_btn_add_to_cart()
+
+        inventory_page.select_sort("hilo")
+        inventory_page.check_backpack1_visible()
+
+    def test_inv_009(self, page):
+
+        login_page = LoginPage(page)
+        login_page.open()
+        login_page.login_procedure(USER1_NAME, USER_PASSWORD)
+        login_page.expect_to_have_url(URL_INVENTARY)
+
+        inventory_page = InventoryPage(page)
+        inventory_page.click_first_product_image()
+
+        actual_url = page.url
+        assert "inventory-item" in actual_url, f"Ожидался переход на детальную страницу товара, но текущий URL: {actual_url}"
+
+    def test_inv_010(self, page):
+
+        login_page = LoginPage(page)
+        login_page.open()
+        login_page.login_procedure(USER1_NAME, USER_PASSWORD)
+        login_page.expect_to_have_url(URL_INVENTARY)
+
+        inventory_page = InventoryPage(page)
+        inventory_page.click_btn_add_to_cart()
+
+        assert inventory_page.get_cart_badge_count() == 1, "Товар не добавился в корзину!"
+
+        inventory_page.click_btn_remove_from_cart()
+
+        assert inventory_page.get_cart_badge_count() == 0, "Товар не удалился из корзины после нажатия 'Remove'!"

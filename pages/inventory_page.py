@@ -8,6 +8,7 @@ class InventoryPage(BasePage):
 
     def __init__(self, page):
         super().__init__(page)
+        self.btn_remove_card = self.page.locator("button:has-text('Remove')")
         self.sort_dropdown = self.page.locator(".product_sort_container")
         self.title = self.page.locator(".title")
         self.backpack1 = self.page.get_by_text(BACKPACK)
@@ -17,6 +18,8 @@ class InventoryPage(BasePage):
         self.inventory_item_name = self.page.locator(".inventory_item_name")
         self.inventory_item_price = self.page.locator(".inventory_item_price")
         self.inventory_item_img = self.page.locator(".inventory_item_img img")
+        self.shopping_cart_badge = self.page.locator(".shopping_cart_badge")
+        self.inventory_item = self.page.locator(".inventory_item")
 
 
     def check_backpack1_visible(self):
@@ -38,7 +41,7 @@ class InventoryPage(BasePage):
         return True
 
     def get_product_cards_count(self) -> int:
-        return self.page.locator(".inventory_item").count()
+        return self.inventory_item.count()
 
     def get_all_product_names(self) -> list[str]:
         return self.inventory_item_name.all_inner_texts()
@@ -62,6 +65,15 @@ class InventoryPage(BasePage):
         return [float(price.replace("$", "")) for price in
                 self.get_all_product_prices()]
 
+    def click_first_product_image(self):
+        self.inventory_item_img.first.click()
 
+    def get_cart_badge_count(self) -> int:
+        if self.shopping_cart_badge.is_visible():
+            return int(self.shopping_cart_badge.text_content())
+        return 0
+
+    def click_btn_remove_from_cart(self):
+        self.btn_remove_card.click()
 
 
