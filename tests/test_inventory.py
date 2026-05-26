@@ -30,8 +30,7 @@ class TestInventory:
         inventory_page = InventoryPage(page)
         actual_names = inventory_page.get_all_product_names()
 
-        assert actual_names == expected_names
-        f"Списки не совпадают!\nОжидалось: {expected_names}\nПолучено: {actual_names}"
+        assert actual_names == expected_names, f"Списки не совпадают!\nОжидалось: {expected_names}\nПолучено: {actual_names}"
 
     def test_inv_003(self, page):
 
@@ -45,8 +44,7 @@ class TestInventory:
         inventory_page = InventoryPage(page)
         actual_prices = inventory_page.get_all_product_prices()
 
-        assert actual_prices == expected_prices
-        f"Цены не совпадают!\nОжидалось: {expected_prices}\nПолучено: {actual_prices}"
+        assert actual_prices == expected_prices, f"Цены не совпадают!\nОжидалось: {expected_prices}\nПолучено: {actual_prices}"
 
     def test_inv_004(self, page):
 
