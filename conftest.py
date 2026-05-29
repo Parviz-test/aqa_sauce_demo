@@ -7,7 +7,7 @@ from config.base import URL_BASE
 @pytest.fixture
 def page():
     with sync_playwright() as drv:
-        browser = drv.chromium.launch(headless=False, slow_mo=500)
+        browser = drv.chromium.launch(headless=True, slow_mo=500)
         page = browser.new_page()
         page.set_default_timeout(7_000)
         page.goto(URL_BASE)
