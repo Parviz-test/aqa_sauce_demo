@@ -1,4 +1,5 @@
 import pytest
+import allure
 
 from config.base import E_MSG_LOGIN, E_MSG_LOGIN_USERNAME, \
     E_MSG_LOGIN_PASSWORD, URL_INVENTARY
@@ -9,8 +10,12 @@ from pages.inventory_page import InventoryPage
 from pages.login_page import LoginPage
 
 
+@allure.epic("Авторизация")
+@allure.feature("Форма логина")
 class TestAuth:
 
+    @allure.severity(allure.severity_level.BLOCKER)
+    @allure.title("Успешный вход со стандартным пользователем")
     def test_auth_001(self, page):
         """ Успешный вход со стандартным пользователем """
         login_page = LoginPage(page)
@@ -29,6 +34,9 @@ class TestAuth:
         inventory_page = InventoryPage(page)
         assert inventory_page.check_have_title(TITLE_INVENTORY), "Заголовок не тот"
 
+
+    @allure.severity(allure.severity_level.CRITICAL)
+    @allure.title("Проверка ошибок валидации и инъекций (Логин: '{username}')")
     @pytest.mark.parametrize(
         "page,username,password,error_msg",
         [(True, USER1_NAME, "wrong_password", E_MSG_LOGIN),
@@ -70,6 +78,8 @@ class TestAuth:
             error_msg), "Что-то пошло не так!"
 
 
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.title("Блокировка после 5 неудачных попыток входа")
     def test_auth_009(self, page):
             """
             009 Блокировка после 5 неудачных попыток входа
@@ -92,6 +102,9 @@ class TestAuth:
             inventory_page = InventoryPage(page)
             assert inventory_page.check_have_title("Products")
 
+
+    @allure.severity(allure.severity_level.NORMAL)
+    @allure.title("Сохранение сессии после перезагрузки страницы")
     def test_auth_010(self, page):
             """
             010 Сохранение сессии после перезагрузки страницы
